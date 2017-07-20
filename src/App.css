@@ -1,0 +1,98 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Todos */
+
+.todos {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 20px auto;
+}
+
+.todos__header {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 20px 0;
+}
+
+.todos__header input {
+  border: none;
+  height: 40px;
+  padding: 0 10px;
+  font-size: 16px;
+  color: #222;
+  border-radius: 4px;
+  box-shadow: 1px 1px 4px 1px rgba(0,0,0, .15);
+}
+
+.todos__list {
+  list-style-type: none;
+  margin: 10px 0;
+  padding: 0;
+}
+
+.todos__list li {
+  text-align: left;
+  padding: 10px 0;
+  line-height: 20px;
+  margin: 5px 0;
+  border-bottom: 1px dotted #ccc;
+}
+
+.todos__list li label {
+  cursor: pointer;
+}
+
+.todos__list li:last-child {
+  border-bottom: none;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  margin: 0 5px 0 0;
+}
+
+.todo:hover .btn-remove {
+  opacity: 1;
+}
+
+.todo__inner {
+  display: flex;
+  align-items: center;
+}
+
+.btn-remove, .btn-edit {
+  opacity: .5;
+  cursor: pointer;
+  font-size: 20px;
+
+  transition: opacity .3s linear;
+}
+
+.btn-edit {
+  margin-left: auto;
+}
