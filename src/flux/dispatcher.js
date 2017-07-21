@@ -15,6 +15,10 @@ class Dispatcher {
                 this._updateTodo(action.todo);
                 break;
 
+            case 'REARRANGE_TODO':
+                this._rearrangeTodo(action.position, action.todo);
+                break;
+
             default:
                 console.log('Undefined Action');
         }
@@ -40,6 +44,12 @@ class Dispatcher {
         let todos = Store.getTodos();
         todos = todos.map(item => item.id === todo.id ? todo : item);
         Store.setTodos(todos);
+    }
+    _rearrangeTodo(position, todo) {
+        let todos = Store.getTodos();
+        todos = todos.filter(item => item.id !== todo.id);
+        todos.splice(position, 0, todo);
+        Store.setTodos([...todos]);
     }
 };
 

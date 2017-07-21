@@ -18,3 +18,11 @@ export function updateTodo(todo) {
         todo
     };
 }
+
+export function rearrange(position, todo) {
+    return {
+        type: 'REARRANGE_TODO',
+        position,
+        todo
+    }
+}

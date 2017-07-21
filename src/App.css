@@ -55,10 +55,10 @@
 }
 
 .todos__list li {
+  cursor: move;
   text-align: left;
-  padding: 10px 0;
+  padding: 15px 0;
   line-height: 20px;
-  margin: 5px 0;
   border-bottom: 1px dotted #ccc;
 }
 
@@ -95,4 +95,8 @@ input[type="checkbox"] {
 
 .btn-edit {
   margin-left: auto;
+}
+
+.over {
+  border-bottom-style: solid !important;
 }

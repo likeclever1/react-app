@@ -15,8 +15,13 @@ class Todos extends Component {
             todos: Store.getTodos()
         };
 
+        this.draggedTodo = null;
+
         this.onCreateTodo = this.onCreateTodo.bind(this);
         this.handleUpdateTodos = this.handleUpdateTodos.bind(this);
+
+        this.onDrop = this.onDrop.bind(this);
+        this.onDragStart = this.onDragStart.bind(this);
     }
 
     componentWillMount() {
@@ -42,6 +47,51 @@ class Todos extends Component {
         Dispatcher.dispatch(Actions.updateTodo(todo));
     }
 
+    onDragStart(e, todo) {
+        const el = e.nativeEvent.target;
+
+        this.draggedTodo = todo;
+        e.nativeEvent.dataTransfer.effectAllowed = 'move';
+        e.nativeEvent.dataTransfer.setData('text/html', el.innerHTML);
+    }
+
+    onDragOver(e) {
+        e.nativeEvent.preventDefault();
+        e.nativeEvent.dataTransfer.dropEffect = 'move';
+    }
+
+    onDragEnter(e) {
+        const el = e.nativeEvent.target;
+
+        if (el.tagName.toUpperCase() === 'LI') {
+            el.classList.add('over');
+        }
+    }
+
+    onDragLeave(e) {
+        const el = e.nativeEvent.target;
+
+        if (el.tagName.toUpperCase() === 'LI') {
+            el.classList.remove('over');
+        }
+    }
+
+    onDrop(e, index) {
+        e.nativeEvent.preventDefault();
+
+        if (index > -1) {
+            Dispatcher.dispatch(Actions.rearrange(index, this.draggedTodo));
+        }
+
+        return false;
+    }
+
+    onDragEnd(e) {
+        Array.from(this.refs.list.children).forEach((item) => {
+            item.classList.remove('over');
+        });
+    }
+
     render() {
         return (
             <div className="todos">
@@ -51,11 +101,17 @@ class Todos extends Component {
 
                 { (!this.state.todos.length) ? (<h4>No Todos</h4>) : '' }
 
-                <ul className="todos__list">
+                <ul className="todos__list" ref="list">
                     {
-                        this.state.todos.map( (todo) => {
+                        this.state.todos.map( (todo, index) => {
                             return (
-                                <li draggable key={todo.id}>
+                                <li draggable key={todo.id}
+                                    onDragStart={(e) => {this.onDragStart(e, todo)}}
+                                    onDragOver={this.onDragOver.bind(this)}
+                                    onDragEnter={this.onDragEnter.bind(this)}
+                                    onDragLeave={this.onDragLeave.bind(this)}
+                                    onDrop={(e) => {this.onDrop(e, index)}}
+                                    onDragEnd={this.onDragEnd.bind(this)}>
                                     <Todo todo={todo} />
                                 </li>
                             );
